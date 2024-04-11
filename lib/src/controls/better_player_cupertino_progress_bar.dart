@@ -212,8 +212,10 @@ class _ProgressBarPainter extends CustomPainter {
     if (!value.initialized) {
       return;
     }
-    final double playedPartPercent =
-        value.position.inMilliseconds / value.duration!.inMilliseconds;
+    final double playedPartPercent = value.position.inMilliseconds /
+        (value.duration!.inMilliseconds == 0
+            ? 1
+            : value.duration!.inMilliseconds);
     final double playedPart =
         playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
     for (final DurationRange range in value.buffered) {

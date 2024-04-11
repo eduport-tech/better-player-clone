@@ -17,6 +17,7 @@ class _BasicPlayerPageState extends State<BasicPlayerPage> {
       // 'https://d357lqen3ahf81.cloudfront.net/transcoded/7EsHghnDzbx/video.m3u8',
       // 'https://d357lqen3ahf81.cloudfront.net/transcoded/7nPcUBRupF2/video.m3u8',
       'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
+      // 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8',
       cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
       bufferingConfiguration: const BetterPlayerBufferingConfiguration(),
     );
