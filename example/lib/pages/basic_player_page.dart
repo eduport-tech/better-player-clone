@@ -14,7 +14,9 @@ class _BasicPlayerPageState extends State<BasicPlayerPage> {
   void initState() {
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      'https://d357lqen3ahf81.cloudfront.net/transcoded/7EsHghnDzbx/video.m3u8',
+      // 'https://d357lqen3ahf81.cloudfront.net/transcoded/7EsHghnDzbx/video.m3u8',
+      // 'https://d357lqen3ahf81.cloudfront.net/transcoded/7nPcUBRupF2/video.m3u8',
+      'https://live-par-2-cdn-alt.livepush.io/live/bigbuckbunnyclip/index.m3u8',
       cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
       bufferingConfiguration: const BetterPlayerBufferingConfiguration(),
     );
