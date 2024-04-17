@@ -827,12 +827,7 @@ class _BetterPlayerCupertinoControlsState
             onTapDown: () {
               cancelAndRestartTimer();
             },
-            colors: BetterPlayerProgressColors(
-                // playedColor: _controlsConfiguration.progressBarPlayedColor,
-                // handleColor: _controlsConfiguration.progressBarHandleColor,
-                // bufferedColor: _controlsConfiguration.progressBarBufferedColor,
-                // backgroundColor: _controlsConfiguration.progressBarBackgroundColor,
-                ),
+            colors: BetterPlayerProgressColors(),
           ),
         ),
       ),
