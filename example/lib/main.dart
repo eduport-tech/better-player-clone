@@ -158,6 +158,7 @@ class _WebPlayerState extends State<WebPlayer> {
                     await betterPlayerController.setupDataSource(
                         BetterPlayerDataSource.network(
                             'https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8',
+                            liveStream: true,
                             videoFormat: BetterPlayerVideoFormat.hls));
                   },
                   child: Text('Change Video ')),

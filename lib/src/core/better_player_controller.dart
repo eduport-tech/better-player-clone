@@ -38,6 +38,9 @@ class BetterPlayerController {
   ///List of files to delete once player disposes.
   final List<File> _tempFiles = [];
 
+  ///Where the giver url is live
+  bool isLive = false;
+
   ///Stream controller which emits stream when control visibility changes.
   final StreamController<bool> _controlsVisibilityStreamController =
       StreamController.broadcast();
@@ -263,7 +266,7 @@ class BetterPlayerController {
     ///Build videoPlayerController if null
     if (videoPlayerController == null) {
       videoPlayerController = VideoPlayerController(
-        webSize:betterPlayerConfiguration.webSize ,
+          webSize: betterPlayerConfiguration.webSize,
           bufferingConfiguration:
               betterPlayerDataSource.bufferingConfiguration);
       videoPlayerController?.addListener(_onVideoPlayerChanged);
@@ -290,9 +293,18 @@ class BetterPlayerController {
 
     ///Process data source
     await _setupDataSource(betterPlayerDataSource);
-    setTrack(BetterPlayerAsmsTrack.defaultTrack());
+
+    isLive = getIsLive();
+
+    (BetterPlayerAsmsTrack.defaultTrack());
   }
 
+
+bool getIsLive(){
+// betterPlayerDataSource.b
+  return false;
+
+}
   ///Configure subtitles based on subtitles source.
   void _setupSubtitles() {
     _betterPlayerSubtitlesSourceList.add(
@@ -568,6 +580,7 @@ class BetterPlayerController {
   ///Initializes video based on configuration. Invoke actions which need to be
   ///run on player start.
   Future _initializeVideo() async {
+    
     setLooping(betterPlayerConfiguration.looping);
     _videoEventStreamSubscription?.cancel();
     _videoEventStreamSubscription = null;
@@ -607,16 +620,14 @@ class BetterPlayerController {
 
     int tolerance = (singleSegmentDuration * 5) ~/ 100; // 5 % single segment
     _checkPoints.clear();
-   
+
     for (int i = 0; i < 10; i++) {
       _checkPoints[i] = CheckPointData(
           status: false, videoFraction: singleSegmentDuration * (i + 1));
     }
 
     if (singleSegmentDuration > 0) {
-      
-      videoPlayerController?.addListener(()  {
-
+      videoPlayerController?.addListener(() {
         int position = videoPlayerController?.value.position.inSeconds ?? 0;
 
         int key = (position + tolerance) ~/ singleSegmentDuration;
@@ -664,11 +675,10 @@ class BetterPlayerController {
     }
   }
 
+  Future<bool> isWebFullScreen() async {
+    return await videoPlayerController?.isWebFullScreen() ?? false;
+  }
 
-Future<bool> isWebFullScreen ()async{
-
-  return await  videoPlayerController?.isWebFullScreen()??false;
-}
   ///Start video playback. Play will be triggered only if current lifecycle state
   ///is resumed.
   Future<void> play() async {

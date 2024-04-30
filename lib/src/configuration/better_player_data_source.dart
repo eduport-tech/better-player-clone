@@ -81,7 +81,7 @@ class BetterPlayerDataSource {
     this.url, {
     this.bytes,
     this.subtitles,
-    this.liveStream = false,
+    this.liveStream = true,
     this.headers,
     this.useAsmsSubtitles = true,
     this.useAsmsTracks = true,

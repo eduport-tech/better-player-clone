@@ -315,7 +315,8 @@ class _BetterPlayerCupertinoControlsState
                 _buildPosition()
               else
                 const SizedBox(),
-              if (_controlsConfiguration.enableProgressBar)
+              if (_controlsConfiguration.enableProgressBar &&
+                  !_betterPlayerController!.isLiveStream())
                 _buildProgressBar()
               else
                 const SizedBox(),
@@ -812,7 +813,7 @@ class _BetterPlayerCupertinoControlsState
     return Expanded(
       child: SizedBox(
         height: 40,
-        // width: MediaQuery.of(context).size.width - 300,
+        width: MediaQuery.of(context).size.width - 300,
         child: Padding(
           padding: const EdgeInsets.only(right: 10),
           child: BetterPlayerCupertinoVideoProgressBar(
