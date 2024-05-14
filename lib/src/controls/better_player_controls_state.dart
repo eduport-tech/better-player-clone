@@ -472,39 +472,48 @@ abstract class BetterPlayerControlsState<T extends StatefulWidget>
           betterPlayerController?.betterPlayerConfiguration.useRootNavigator ??
               false,
       builder: (context) {
-        return SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Container(
-            width: (betterPlayerController?.isFullScreen ?? false) ? 390 : null,
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-            decoration: BoxDecoration(
-              color: betterPlayerControlsConfiguration.overflowModalColor,
-              /*shape: RoundedRectangleBorder(side: Bor,borderRadius: 24,)*/
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0)),
-            ),
-            child: SafeArea(
-              top: false,
-              left: !(betterPlayerController?.isFullScreen ?? false),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 7,
+        return StretchingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          child: ScrollConfiguration(
+            behavior: const ScrollBehavior().copyWith(
+                physics: const ClampingScrollPhysics(), overscroll: false),
+            child: SingleChildScrollView(
+              // physics: const BouncingScrollPhysics(),
+              child: Container(
+                width: (betterPlayerController?.isFullScreen ?? false)
+                    ? 390
+                    : null,
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                decoration: BoxDecoration(
+                  color: betterPlayerControlsConfiguration.overflowModalColor,
+                  /*shape: RoundedRectangleBorder(side: Bor,borderRadius: 24,)*/
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(24.0),
+                      topRight: Radius.circular(24.0)),
+                ),
+                child: SafeArea(
+                  top: false,
+                  left: !(betterPlayerController?.isFullScreen ?? false),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      Container(
+                        width: 44,
+                        height: 5,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(9),
+                            color: const Color(0xffB0B6CC)),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ...children
+                    ],
                   ),
-                  Container(
-                    width: 44,
-                    height: 5,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(9),
-                        color: const Color(0xffB0B6CC)),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ...children
-                ],
+                ),
               ),
             ),
           ),
