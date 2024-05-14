@@ -11,6 +11,7 @@ import 'package:better_player/src/core/images.dart';
 import 'package:better_player/src/video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BetterPlayerCupertinoControls extends StatefulWidget {
@@ -179,8 +180,9 @@ class _BetterPlayerCupertinoControlsState
                   child: Container(
                     // color: Colors.red,
                     child: Visibility(
-                        visible: (!controlsNotVisible),
-                        child: _buildCenterWidget()),
+                      visible: (!controlsNotVisible),
+                      child: _buildCenterWidget(),
+                    ),
                   ),
                 ),
             ],
@@ -300,33 +302,49 @@ class _BetterPlayerCupertinoControlsState
       //         ],
       //       )
       //     :
+
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(width: 10),
-              if (_controlsConfiguration.enableProgressText)
-                _buildPosition()
-              else
-                const SizedBox(),
-              if (_controlsConfiguration.enableProgressBar &&
-                  !_betterPlayerController!.isLiveStream())
-                _buildProgressBar()
-              else
-                const SizedBox(),
-              if (_controlsConfiguration.enableProgressText)
-                _buildRemaining()
-              else
-                const SizedBox(),
-              _buildFullScreenToogle(),
-              SizedBox(width: 10),
-            ],
+          SizedBox(
+            width: _betterPlayerController?.isFullScreen ?? false
+                ? MediaQuery.of(context).size.width - 110
+                : MediaQuery.of(context).size.width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(width: 10),
+                Visibility(
+                    visible: _controlsConfiguration.enableProgressText,
+                    child: _buildPosition()),
+                Expanded(
+                  // child: Container(
+                  //   color: Colors.red,
+                  //   // width: 300,
+                  //   height: 20,
+                  // width: 300,
+                  child: Visibility(
+                      visible: _controlsConfiguration.enableProgressBar &&
+                          !_betterPlayerController!.isLiveStream(),
+                      child: _buildProgressBar()),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  '10:30',
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(width: 10),
+                // Visibility(
+                //     visible: _controlsConfiguration.enableProgressText,
+                //     child: _buildRemaining()),
+                _buildFullScreenToogle(),
+                SizedBox(width: 10),
+              ],
+            ),
           ),
           Visibility(
             visible: (_betterPlayerController?.isFullScreen ?? false),
@@ -810,26 +828,24 @@ class _BetterPlayerCupertinoControlsState
   }
 
   Widget _buildProgressBar() {
-    return Expanded(
-      child: SizedBox(
-        height: 40,
-        width: MediaQuery.of(context).size.width - 300,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: BetterPlayerCupertinoVideoProgressBar(
-            _controller,
-            _betterPlayerController,
-            onDragStart: () {
-              _hideTimer?.cancel();
-            },
-            onDragEnd: () {
-              _startHideTimer();
-            },
-            onTapDown: () {
-              cancelAndRestartTimer();
-            },
-            colors: BetterPlayerProgressColors(),
-          ),
+    return SizedBox(
+      height: 40,
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: BetterPlayerCupertinoVideoProgressBar(
+          _controller,
+          _betterPlayerController,
+          onDragStart: () {
+            _hideTimer?.cancel();
+          },
+          onDragEnd: () {
+            _startHideTimer();
+          },
+          onTapDown: () {
+            cancelAndRestartTimer();
+          },
+          colors: BetterPlayerProgressColors(),
         ),
       ),
     );
@@ -837,7 +853,6 @@ class _BetterPlayerCupertinoControlsState
 
   void _onPlayPause() {
     bool isFinished = false;
-
     if (_latestValue?.position != null && _latestValue?.duration != null) {
       isFinished = _latestValue!.position >= _latestValue!.duration!;
     }
