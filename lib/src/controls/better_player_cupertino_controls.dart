@@ -328,8 +328,8 @@ class _BetterPlayerCupertinoControlsState
                   //   height: 20,
                   // width: 300,
                   child: Visibility(
-                      visible: _controlsConfiguration.enableProgressBar &&
-                          !_betterPlayerController!.isLiveStream(),
+                      visible: _controlsConfiguration.enableProgressBar,
+                      // !_betterPlayerController!.isLiveStream(),
                       child: _buildProgressBar()),
                 ),
                 SizedBox(width: 10),
