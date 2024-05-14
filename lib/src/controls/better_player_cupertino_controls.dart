@@ -333,14 +333,9 @@ class _BetterPlayerCupertinoControlsState
                       child: _buildProgressBar()),
                 ),
                 SizedBox(width: 10),
-                Text(
-                  '10:30',
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(width: 10),
-                // Visibility(
-                //     visible: _controlsConfiguration.enableProgressText,
-                //     child: _buildRemaining()),
+                Visibility(
+                    visible: _controlsConfiguration.enableProgressText,
+                    child: _buildRemaining()),
                 _buildFullScreenToogle(),
                 SizedBox(width: 10),
               ],
