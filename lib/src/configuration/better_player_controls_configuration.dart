@@ -75,13 +75,12 @@ class BetterPlayerControlsConfiguration {
   ///Time to hide controls
   final Duration controlsHideTime;
 
-
   /// Show Player back button on portrait
-  final bool showPlayerBackButton ;
+  final bool showPlayerBackButton;
 
   ///Parameter used to build custom controls
-  final Widget Function(BetterPlayerController controller, Function(bool) onPlayerVisibilityChanged)?
-      customControlsBuilder;
+  final Widget Function(BetterPlayerController controller,
+      Function(bool) onPlayerVisibilityChanged)? customControlsBuilder;
 
   ///Parameter used to change theme of the player
   final BetterPlayerTheme? playerTheme;
@@ -249,8 +248,8 @@ class BetterPlayerControlsConfiguration {
   ///Setup BetterPlayerControlsConfiguration based on Theme options.
   factory BetterPlayerControlsConfiguration.theme(ThemeData theme) {
     return BetterPlayerControlsConfiguration(
-      textColor: theme.textTheme.bodyText1?.color ?? Colors.white,
-      iconsColor: theme.textTheme.button?.color ?? Colors.white,
+      textColor: Colors.white,
+      iconsColor: Colors.white,
     );
   }
 }
