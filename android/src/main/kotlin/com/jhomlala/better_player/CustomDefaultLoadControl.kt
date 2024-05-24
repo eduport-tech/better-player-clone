@@ -1,8 +1,8 @@
 package com.jhomlala.better_player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.DefaultLoadControl
 
-import com.google.android.exoplayer2.DefaultLoadControl
-
-internal class CustomDefaultLoadControl {
+@UnstableApi internal class CustomDefaultLoadControl {
     /**
      * The default minimum duration of media that the player will attempt to ensure is buffered
      * at all times, in milliseconds.

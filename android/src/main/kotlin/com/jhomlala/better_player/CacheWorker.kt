@@ -3,14 +3,16 @@ package com.jhomlala.better_player
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.annotation.OptIn
+import androidx.media3.common.util.UnstableApi
 import com.jhomlala.better_player.DataSourceUtils.isHTTP
 import com.jhomlala.better_player.DataSourceUtils.getUserAgent
 import com.jhomlala.better_player.DataSourceUtils.getDataSourceFactory
 import androidx.work.WorkerParameters
-import com.google.android.exoplayer2.upstream.cache.CacheWriter
+import androidx.media3.datasource.cache.CacheWriter
 import androidx.work.Worker
-import com.google.android.exoplayer2.upstream.DataSpec
-import com.google.android.exoplayer2.upstream.HttpDataSource.HttpDataSourceException
+import androidx.media3.datasource.DataSpec
+import androidx.media3.datasource.HttpDataSource.HttpDataSourceException
 import java.lang.Exception
 import java.util.*
 
@@ -24,7 +26,7 @@ class CacheWorker(
 ) : Worker(context, params) {
     private var cacheWriter: CacheWriter? = null
     private var lastCacheReportIndex = 0
-    override fun doWork(): Result {
+    @OptIn(UnstableApi::class) override fun doWork(): Result {
         try {
             val data = inputData
             val url = data.getString(BetterPlayerPlugin.URL_PARAMETER)
@@ -84,7 +86,7 @@ class CacheWorker(
         return Result.success()
     }
 
-    override fun onStopped() {
+    @OptIn(UnstableApi::class) override fun onStopped() {
         try {
             cacheWriter?.cancel()
             super.onStopped()
