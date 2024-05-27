@@ -27,7 +27,7 @@ class _BasicPlayerPageState extends State<BasicPlayerPage> {
 
     _controller = BetterPlayerController(
         BetterPlayerConfiguration(
-            // autoPlay: true,
+            autoPlay: true,
             controlsConfiguration:
                 BetterPlayerControlsConfiguration(showPlayerBackButton: false)),
         betterPlayerDataSource: _betterPlayerDataSource);

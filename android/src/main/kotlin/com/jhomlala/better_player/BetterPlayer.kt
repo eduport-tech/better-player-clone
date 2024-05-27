@@ -517,15 +517,21 @@ internal class BetterPlayer(
         exoPlayer?.setVideoSurface(surface)
 
         exoPlayer?.addListener(object : Player.Listener {
-
+            private var isBuffering: Boolean = false
+            private var wasPlaying: Boolean = false
             override fun onIsPlayingChanged(isPlaying: Boolean) {
+                if (isBuffering) return
                 val event: MutableMap<String, Any> = HashMap()
                 if(isPlaying){
+                    Log.i(TAG , "player is play")
                     event["event"] = "play"
                     eventSink.success(event)
+                    wasPlaying = true
                 }else{
+                    Log.i(TAG , "player is pause")
                     event["event"] = "pause"
                     eventSink.success(event)
+                    wasPlaying = false
                 }
 
                 super.onIsPlayingChanged(isPlaying)
@@ -534,14 +540,19 @@ internal class BetterPlayer(
                 when (playbackState) {
                     Player.STATE_BUFFERING -> {
                         Log.i(TAG , "player is buffering")
+                        isBuffering = true
                         sendBufferingUpdate(true)
                         val event: MutableMap<String, Any> = HashMap()
                         event["event"] = "bufferingStart"
                         eventSink.success(event)
+
+
+
                     }
 
                     Player.STATE_READY -> {
                         Log.i(TAG , "player is ready")
+                        isBuffering = false
                         if (!isInitialized) {
                             isInitialized = true
                             sendInitialized()
@@ -549,19 +560,29 @@ internal class BetterPlayer(
                         val event: MutableMap<String, Any> = HashMap()
                         event["event"] = "bufferingEnd"
                         eventSink.success(event)
+
+                        // Check if we should send play event after buffering
+                        Log.i(TAG , "was playing $wasPlaying")
+//                        if (! wasPlaying) {
+                            event["event"] = "play"
+                            eventSink.success(event)
+                            wasPlaying = true
+//                        }
                     }
 
                     Player.STATE_ENDED -> {
                         Log.i(TAG , "player is ended")
                         val event: MutableMap<String, Any?> = HashMap()
                         event["event"] = "completed"
+                        isBuffering = false
                         event["key"] = key
                         eventSink.success(event)
                     }
 
                     Player.STATE_IDLE -> {
+                        isBuffering = false
                         Log.i(TAG , "player is ideal")
-                        //no-op
+
                     }
                 }
             }
